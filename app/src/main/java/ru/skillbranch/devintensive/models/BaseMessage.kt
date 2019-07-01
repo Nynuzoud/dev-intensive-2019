@@ -1,4 +1,4 @@
-package com.example.devintensive.models
+package ru.skillbranch.devintensive.models
 
 import java.util.*
 
@@ -30,7 +30,13 @@ abstract class BaseMessage(
                     date = date,
                     image = payload as String
                 )
-                else -> TextMessage("$lastId", from, chat, date = date, text = payload as String)
+                else -> TextMessage(
+                    "$lastId",
+                    from,
+                    chat,
+                    date = date,
+                    text = payload as String
+                )
             }
         }
     }

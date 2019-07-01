@@ -1,6 +1,6 @@
-package com.example.devintensive.models
+package ru.skillbranch.devintensive.models
 
-import com.example.devintensive.utils.Utils
+import ru.skillbranch.devintensive.utils.Utils
 import java.util.*
 
 data class User(
@@ -46,7 +46,16 @@ data class User(
         fun respect(respect: Int) = apply { this.respect = respect }
         fun lastVisit(lastVisit: Date?) = apply { this.lastVisit = lastVisit }
         fun isOnline(isOnline: Boolean) = apply { this.isOnline = isOnline }
-        fun build() = User(id ?: "-1", firstName, lastName, avatar, rating, respect, lastVisit, isOnline)
+        fun build() = User(
+            id ?: "-1",
+            firstName,
+            lastName,
+            avatar,
+            rating,
+            respect,
+            lastVisit,
+            isOnline
+        )
     }
 
     companion object Factory {

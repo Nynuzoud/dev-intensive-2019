@@ -1,6 +1,6 @@
-package com.example.devintensive.extensions
+package ru.skillbranch.devintensive.extensions
 
-import com.example.devintensive.utils.DateUtils
+import ru.skillbranch.devintensive.utils.DateUtils
 import java.text.SimpleDateFormat
 import java.util.*
 

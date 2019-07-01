@@ -1,6 +1,6 @@
-package com.example.devintensive.utils
+package ru.skillbranch.devintensive.utils
 
-import com.example.devintensive.extensions.trimOrNull
+import ru.skillbranch.devintensive.extensions.trimOrNull
 import java.util.*
 
 object Utils {
@@ -23,12 +23,15 @@ object Utils {
             } else {
                 if (it.isUpperCase()) {
                     stringBuilder.append(
-                        Transliterator
-                            .rusToEngByLetter(it.toLowerCase().toString())
+                        Transliterator.rusToEngByLetter(it.toLowerCase().toString())
                             .toUpperCase(Locale("ru"))
                     )
                 } else {
-                    stringBuilder.append(Transliterator.rusToEngByLetter(it.toString()))
+                    stringBuilder.append(
+                        Transliterator.rusToEngByLetter(
+                            it.toString()
+                        )
+                    )
                 }
             }
         }

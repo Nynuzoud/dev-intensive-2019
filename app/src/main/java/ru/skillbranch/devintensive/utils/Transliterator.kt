@@ -1,4 +1,4 @@
-package com.example.devintensive.utils
+package ru.skillbranch.devintensive.utils
 
 object Transliterator {
 

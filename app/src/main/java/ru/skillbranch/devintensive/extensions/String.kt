@@ -1,4 +1,4 @@
-package com.example.devintensive.extensions
+package ru.skillbranch.devintensive.extensions
 
 fun String?.trimOrNull(): String? {
     val resultString = this?.trim()
