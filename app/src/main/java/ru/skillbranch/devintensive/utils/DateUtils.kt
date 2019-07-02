@@ -15,7 +15,7 @@ object DateUtils {
                     val totalValue = tempTime / MINUTE
                     "$totalValue ${getDatePlurals(
                         totalValue,
-                        TimeUnit.MINUTE
+                        TimeUnits.MINUTE
                     )} назад"
                 }
                 in 45 * MINUTE..75 * MINUTE -> "час назад"
@@ -23,7 +23,7 @@ object DateUtils {
                     val totalValue = tempTime / HOUR
                     "$totalValue ${getDatePlurals(
                         totalValue,
-                        TimeUnit.HOUR
+                        TimeUnits.HOUR
                     )} назад"
                 }
                 in 22 * HOUR..26 * HOUR -> "день назад"
@@ -31,7 +31,7 @@ object DateUtils {
                     val totalValue = tempTime / DAY
                     "$totalValue ${getDatePlurals(
                         totalValue,
-                        TimeUnit.DAY
+                        TimeUnits.DAY
                     )} назад"
                 }
                 else -> "более года назад"
@@ -45,7 +45,7 @@ object DateUtils {
                     val totalValue = timeInMillis / MINUTE
                     "через $totalValue ${getDatePlurals(
                         totalValue,
-                        TimeUnit.MINUTE
+                        TimeUnits.MINUTE
                     )}"
                 }
                 in 45 * MINUTE..75 * MINUTE -> "через час"
@@ -53,7 +53,7 @@ object DateUtils {
                     val totalValue = timeInMillis / HOUR
                     "через $totalValue ${getDatePlurals(
                         totalValue,
-                        TimeUnit.HOUR
+                        TimeUnits.HOUR
                     )}"
                 }
                 in 22 * HOUR..26 * HOUR -> "через день"
@@ -61,7 +61,7 @@ object DateUtils {
                     val totalValue = timeInMillis / DAY
                     "через $totalValue ${getDatePlurals(
                         totalValue,
-                        TimeUnit.DAY
+                        TimeUnits.DAY
                     )}"
                 }
                 else -> "более чем через год"
@@ -70,31 +70,31 @@ object DateUtils {
     }
 
     @VisibleForTesting
-    fun getDatePlurals(totalValue: Long, timeUnit: TimeUnit): String {
+    fun getDatePlurals(totalValue: Long, timeUnits: TimeUnits): String {
         return when {
-            totalValue in 11L..20L -> getManyPlural(timeUnit)
+            totalValue in 11L..20L -> getManyPlural(timeUnits)
             (Math.abs(totalValue) % 10) in 2L..4L -> get2Plural(
-                timeUnit
+                timeUnits
             )
-            else -> getManyPlural(timeUnit)
+            else -> getManyPlural(timeUnits)
         }
     }
 
-    private fun get2Plural(timeUnit: TimeUnit): String {
-        return when (timeUnit) {
-            TimeUnit.SECOND -> "секунды"
-            TimeUnit.MINUTE -> "минуты"
-            TimeUnit.HOUR -> "часа"
-            TimeUnit.DAY -> "дня"
+    private fun get2Plural(timeUnits: TimeUnits): String {
+        return when (timeUnits) {
+            TimeUnits.SECOND -> "секунды"
+            TimeUnits.MINUTE -> "минуты"
+            TimeUnits.HOUR -> "часа"
+            TimeUnits.DAY -> "дня"
         }
     }
 
-    private fun getManyPlural(timeUnit: TimeUnit): String {
-        return when (timeUnit) {
-            TimeUnit.SECOND -> "секунд"
-            TimeUnit.MINUTE -> "минут"
-            TimeUnit.HOUR -> "часов"
-            TimeUnit.DAY -> "дней"
+    private fun getManyPlural(timeUnits: TimeUnits): String {
+        return when (timeUnits) {
+            TimeUnits.SECOND -> "секунд"
+            TimeUnits.MINUTE -> "минут"
+            TimeUnits.HOUR -> "часов"
+            TimeUnits.DAY -> "дней"
         }
     }
 }

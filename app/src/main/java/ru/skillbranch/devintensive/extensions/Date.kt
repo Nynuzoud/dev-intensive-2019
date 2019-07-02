@@ -14,14 +14,14 @@ fun Date.format(pattern: String = "HH:mm:ss dd.MM.yy"): String {
     return dateFormat.format(this)
 }
 
-fun Date.add(value: Int, units: TimeUnit = TimeUnit.SECOND) : Date {
+fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND) : Date {
     var time = this.time
 
     time += when (units) {
-        TimeUnit.SECOND -> value * SECOND
-        TimeUnit.MINUTE -> value * MINUTE
-        TimeUnit.HOUR -> value * HOUR
-        TimeUnit.DAY -> value * DAY
+        TimeUnits.SECOND -> value * SECOND
+        TimeUnits.MINUTE -> value * MINUTE
+        TimeUnits.HOUR -> value * HOUR
+        TimeUnits.DAY -> value * DAY
     }
     this.time = time
     return this
@@ -31,7 +31,7 @@ fun Date.humanizeDiff(): String {
     return DateUtils.timeIntervalToString(this.time - Date().time)
 }
 
-enum class TimeUnit {
+enum class TimeUnits {
     SECOND,
     MINUTE,
     HOUR,
