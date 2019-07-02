@@ -41,8 +41,8 @@ object Utils {
 
     fun toInitials(firstName: String?, lastName: String?): String? {
 
-        val firstInitial = firstName.trimOrNull()?.first()?.toString() ?: ""
-        val secondInitial = lastName.trimOrNull()?.first()?.toString() ?: ""
+        val firstInitial = firstName.trimOrNull()?.first()?.toString()?.toUpperCase(Locale("ru")) ?: ""
+        val secondInitial = lastName.trimOrNull()?.first()?.toString()?.toUpperCase(Locale("ru")) ?: ""
 
         return if (firstInitial.isEmpty() && secondInitial.isEmpty()) {
             null
