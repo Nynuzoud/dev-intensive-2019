@@ -1,6 +1,7 @@
 package ru.skillbranch.devintensive.extensions
 
 import ru.skillbranch.devintensive.utils.DateUtils
+import ru.skillbranch.devintensive.utils.Plurals
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,5 +36,9 @@ enum class TimeUnits {
     SECOND,
     MINUTE,
     HOUR,
-    DAY
+    DAY;
+
+    fun plural(value: Int): String {
+        return Plurals.getPlurals(value, this)
+    }
 }
