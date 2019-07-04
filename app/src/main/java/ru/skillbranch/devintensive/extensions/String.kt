@@ -7,7 +7,15 @@ fun String?.trimOrNull(): String? {
 }
 
 fun String?.truncate(count: Int = 16): String? {
-    return this?.take(count)?.trim().plus("...")
+    if (count == this?.length) return this
+
+    return this?.take(count)?.trim()?.let{
+        return when {
+            it.length > 1 -> it.plus("...")
+            it.length == 1 -> it
+            else -> ""
+        }
+    }
 }
 
 fun String?.stripHtml(): String? {
