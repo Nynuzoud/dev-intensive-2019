@@ -1,3 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Dev-intensive</string>
+    <string name="enter.message" tools:ignore="ExtraTranslation">Введите текст</string>
 </resources>
