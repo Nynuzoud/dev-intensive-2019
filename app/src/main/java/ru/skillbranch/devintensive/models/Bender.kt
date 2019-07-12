@@ -1,5 +1,7 @@
 package ru.skillbranch.devintensive.models
 
+import java.util.*
+
 class Bender(
     var status: Status = Status.NORMAL,
     var question: Question = Question.NAME
@@ -22,7 +24,7 @@ class Bender(
             return "$invalidMessage\n${question.question}" to status.color
         }
 
-        return if (question.answers.contains(answer)) {
+        return if (question.answers.contains(answer.toLowerCase(Locale("ru")))) {
             question = question.nextQuestion()
             "Отлично - это правильный ответ!\n${question.question}" to status.color
         } else {
@@ -47,7 +49,7 @@ class Bender(
     }
 
     enum class Question(val question: String, val answers: List<String>) {
-        NAME("Как меня зовут?", listOf("Бендер", "Bender")) {
+        NAME("Как меня зовут?", listOf("бендер", "bender")) {
             override fun nextQuestion(): Question = PROFESSION
         },
         PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")) {
