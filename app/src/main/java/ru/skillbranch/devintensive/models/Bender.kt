@@ -28,8 +28,14 @@ class Bender(
             question = question.nextQuestion()
             "Отлично - ты справился\n${question.question}" to status.color
         } else {
-            status = status.nextStatus()
-            "Это неправильный ответ\n${question.question}" to status.color
+            if (status.ordinal < Status.values().size - 1) {
+                status = status.nextStatus()
+                "Это неправильный ответ\n${question.question}" to status.color
+            } else {
+                status = Status.NORMAL
+                question = Question.NAME
+                "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
+            }
         }
     }
 
