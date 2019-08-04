@@ -41,13 +41,57 @@ object Utils {
 
     fun toInitials(firstName: String?, lastName: String?): String? {
 
-        val firstInitial = firstName.trimOrNull()?.first()?.toString()?.toUpperCase(Locale("ru")) ?: ""
-        val secondInitial = lastName.trimOrNull()?.first()?.toString()?.toUpperCase(Locale("ru")) ?: ""
+        val firstInitial =
+            firstName.trimOrNull()?.first()?.toString()?.toUpperCase(Locale("ru")) ?: ""
+        val secondInitial =
+            lastName.trimOrNull()?.first()?.toString()?.toUpperCase(Locale("ru")) ?: ""
 
         return if (firstInitial.isEmpty() && secondInitial.isEmpty()) {
             null
         } else {
             "$firstInitial$secondInitial"
         }
+    }
+
+    fun repoIsValid(s: CharSequence?): Boolean {
+        if (s == null) return true
+
+        var url = s.toString().toLowerCase(Locale("ru"))
+        val validPrefixes = arrayOf("https://www.", "https://", "www.")
+        val validDomen = "github.com"
+        val exceptions = arrayOf(
+            "enterprise",
+            "features",
+            "topics",
+            "collections",
+            "trending",
+            "events",
+            "marketplace",
+            "pricing",
+            "nonprofit",
+            "customer-stories",
+            "security",
+            "login",
+            "join"
+        )
+
+        validPrefixes.forEach {
+            url = url.replaceFirst(it, "")
+        }
+
+        exceptions.forEach {
+            url = url.replaceFirst(it, "")
+        }
+
+        url = url
+            .replaceFirst(validDomen, "")
+            .replaceFirst("/", "").let {
+                if (it.isNotEmpty() && it[it.length - 1] == '/') {
+                    return@let it.substring(0..it.length - 2)
+                } else return@let it
+            }
+        if (url.isEmpty()) return false
+
+        return url.matches("[a-zA-Z0-9_-]*".toRegex())
     }
 }
