@@ -2,11 +2,10 @@ package ru.skillbranch.devintensive.ui.custom
 
 import android.content.Context
 import android.graphics.*
-import android.graphics.Paint.ANTI_ALIAS_FLAG
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.widget.ImageView
+import androidx.annotation.ColorRes
+import androidx.annotation.Dimension
 import androidx.core.content.ContextCompat
 import ru.skillbranch.devintensive.R
 import kotlin.math.min
@@ -22,14 +21,6 @@ class CircleImageView @JvmOverloads constructor(
         const val DEFAULT_BORDER_WIDTH = R.dimen.cv_border_width_2
     }
 
-    private var mBitmapShader: Shader? = null
-    private var mBitmap: Bitmap? = null
-    private var mInitialized: Boolean
-    private val mStrokePaint: Paint
-    private var mBitmapDrawBounds: RectF
-    private var mStrokeBounds: RectF
-    private var mBitmapPaint: Paint
-    private var mShaderMatrix: Matrix
     private var strokeColor: Int = ContextCompat.getColor(context, DEFAULT_COLOR)
     private var strokeWidth: Float = resources.getDimension(DEFAULT_BORDER_WIDTH)
 
@@ -50,78 +41,23 @@ class CircleImageView @JvmOverloads constructor(
 
             a.recycle()
         }
-
-        mShaderMatrix = Matrix()
-        mBitmapPaint = Paint(ANTI_ALIAS_FLAG)
-        mStrokePaint = Paint(ANTI_ALIAS_FLAG)
-        mStrokeBounds = RectF()
-        mBitmapDrawBounds = RectF()
-        mStrokePaint.color = strokeColor
-        mStrokePaint.style = Paint.Style.STROKE
-        mStrokePaint.strokeWidth = strokeWidth
-
-        mInitialized = true
-
-        setPadding(strokeWidth.toInt(), strokeWidth.toInt(), strokeWidth.toInt(), strokeWidth.toInt())
     }
 
-    private fun setupBitmap() {
-        if (!mInitialized) {
-            return
-        }
-        mBitmap = getBitmapFromDrawable(drawable)
-        if (mBitmap == null) {
-            return
-        }
+    @Dimension
+    fun getBorderWidth(): Int = strokeWidth.toInt()
 
-        mBitmapShader = BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
-        mBitmapPaint.shader = mBitmapShader
-
-        updateBitmapSize()
+    fun setBorderWidth(@Dimension dp: Int) {
+        strokeWidth = dp.toFloat()
     }
 
-    private fun updateBitmapSize() {
-        if (mBitmap == null) return
+    fun getBorderColor(): Int = strokeColor
 
-        val dx: Float
-        val dy: Float
-        val scale: Float
-
-        if (mBitmap?.width ?: 0 < mBitmap?.height ?: 0) {
-            scale = mBitmapDrawBounds.width() / (mBitmap?.width?.toFloat() ?: 0f)
-            dx = mBitmapDrawBounds.left
-            dy =
-                mBitmapDrawBounds.top - (mBitmap?.height ?: 0) * scale / 2f + mBitmapDrawBounds.width() / 2f
-        } else {
-            scale = mBitmapDrawBounds.height() / (mBitmap?.height?.toFloat() ?: 0f)
-            dx =
-                mBitmapDrawBounds.left - (mBitmap?.width ?: 0) * scale / 2f + mBitmapDrawBounds.width() / 2f
-            dy = mBitmapDrawBounds.top
-        }
-        mShaderMatrix.setScale(scale, scale)
-        mShaderMatrix.postTranslate(dx, dy)
-        mBitmapShader?.setLocalMatrix(mShaderMatrix)
+    fun setBorderColor(hex: String) {
+        strokeColor = Color.parseColor(hex)
     }
 
-    private fun getBitmapFromDrawable(drawable: Drawable?): Bitmap? {
-        if (drawable == null) {
-            return null
-        }
-
-        if (drawable is BitmapDrawable) {
-            return drawable.bitmap
-        }
-
-        val bitmap = Bitmap.createBitmap(
-            drawable.intrinsicWidth,
-            drawable.intrinsicHeight,
-            Bitmap.Config.ARGB_8888
-        )
-        val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, canvas.width, canvas.height)
-        drawable.draw(canvas)
-
-        return bitmap
+    fun setBorderColor(@ColorRes colorId: Int) {
+        strokeColor = ContextCompat.getColor(context, colorId)
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -130,7 +66,7 @@ class CircleImageView @JvmOverloads constructor(
         if (width == 0 || height == 0) {
             return
         }
-        val b = getBitmapFromDrawable(drawable)
+        val b = UiUtils.getBitmapFromDrawable(drawable)
         val bitmap = b?.copy(Bitmap.Config.ARGB_8888, true) ?: return
 
         val w = width

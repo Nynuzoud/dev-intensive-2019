@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.ui.custom.UiUtils
 import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
@@ -50,6 +51,8 @@ class ProfileActivity : AppCompatActivity() {
                 v.text = it[k].toString()
             }
         }
+        val initials = Utils.toInitials(profile.firstName, profile.lastName) ?: ""
+        iv_avatar.setImageDrawable(UiUtils.writeOnDrawable(this, initials))
     }
 
     private fun updateTheme(theme: Int) {
