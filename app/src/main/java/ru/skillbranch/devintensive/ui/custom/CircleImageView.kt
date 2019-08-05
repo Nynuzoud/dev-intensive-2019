@@ -1,8 +1,10 @@
 package ru.skillbranch.devintensive.ui.custom
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.Dimension
@@ -44,7 +46,7 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     @Dimension
-    fun getBorderWidth(): Int = strokeWidth.toInt()
+    fun getBorderWidth(): Int = (strokeWidth * Resources.getSystem().displayMetrics.density + 0.5f).toInt()
 
     fun setBorderWidth(@Dimension dp: Int) {
         strokeWidth = dp.toFloat()
