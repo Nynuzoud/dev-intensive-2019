@@ -1,15 +1,14 @@
 package ru.skillbranch.devintensive.ui.custom
 
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.Dimension
 import androidx.core.content.ContextCompat
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.utils.Utils
 import kotlin.math.min
 
 class CircleImageView @JvmOverloads constructor(
@@ -23,22 +22,22 @@ class CircleImageView @JvmOverloads constructor(
         const val DEFAULT_BORDER_WIDTH = R.dimen.cv_border_width_2
     }
 
-    private var strokeColor: Int = ContextCompat.getColor(context, DEFAULT_COLOR)
-    private var strokeWidth: Float = resources.getDimension(DEFAULT_BORDER_WIDTH)
+    private var borderColor: Int = ContextCompat.getColor(context, DEFAULT_COLOR)
+    private var borderWidth: Int = resources.getDimensionPixelSize(DEFAULT_BORDER_WIDTH)
 
     init {
         if (attrs != null) {
             val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView)
-            strokeColor =
+            borderColor =
                 a.getColor(
                     R.styleable.CircleImageView_cv_borderColor,
                     ContextCompat.getColor(context, DEFAULT_COLOR)
                 )
 
-            strokeWidth =
-                a.getDimension(
+            borderWidth =
+                a.getDimensionPixelSize(
                     R.styleable.CircleImageView_cv_borderWidth,
-                    resources.getDimension(DEFAULT_BORDER_WIDTH)
+                    resources.getDimensionPixelSize(DEFAULT_BORDER_WIDTH)
                 )
 
             a.recycle()
@@ -46,22 +45,22 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     @Dimension
-    fun getBorderWidth(): Int = (strokeWidth * Resources.getSystem().displayMetrics.density + 0.5f).toInt()
+    fun getBorderWidth(): Int = Utils.convertPxToDp(context, borderWidth)
 
     fun setBorderWidth(@Dimension dp: Int) {
-        strokeWidth = dp.toFloat()
+        borderWidth = Utils.convertDpToPx(context, dp.toFloat())
         invalidate()
     }
 
-    fun getBorderColor(): Int = strokeColor
+    fun getBorderColor(): Int = borderColor
 
     fun setBorderColor(hex: String) {
-        strokeColor = Color.parseColor(hex)
+        borderColor = Color.parseColor(hex)
         invalidate()
     }
 
     fun setBorderColor(@ColorRes colorId: Int) {
-        strokeColor = ContextCompat.getColor(context, colorId)
+        borderColor = ContextCompat.getColor(context, colorId)
         invalidate()
     }
 
@@ -92,10 +91,10 @@ class CircleImageView @JvmOverloads constructor(
 
         val borderPaint = Paint()
         borderPaint.style = Paint.Style.STROKE
-        borderPaint.strokeWidth = strokeWidth
-        borderPaint.color = strokeColor
+        borderPaint.strokeWidth = borderWidth.toFloat()
+        borderPaint.color = borderColor
 
-        canvas.drawCircle(canvas.width.toFloat() / 2, canvas.width.toFloat() / 2, newBitmapSquareWidth.toFloat() / 2 - strokeWidth, borderPaint)
+        canvas.drawCircle(canvas.width.toFloat() / 2, canvas.width.toFloat() / 2, newBitmapSquareWidth.toFloat() / 2 - borderWidth, borderPaint)
 
         return bitmap
     }
@@ -125,7 +124,7 @@ class CircleImageView @JvmOverloads constructor(
         paint.isFilterBitmap = true
         paint.isDither = true
         canvas.drawARGB(0, 0, 0, 0)
-        paint.color = strokeColor
+        paint.color = borderColor
         canvas.drawCircle(
             radius / 2 + 0.7f, radius / 2 + 0.7f,
             radius / 2 + 0.1f, paint

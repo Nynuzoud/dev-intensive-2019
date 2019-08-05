@@ -1,7 +1,9 @@
 package ru.skillbranch.devintensive.utils
 
+import android.content.Context
 import ru.skillbranch.devintensive.extensions.trimOrNull
 import java.util.*
+import kotlin.math.roundToInt
 
 object Utils {
     fun parseFullName(fullName: String?): Pair<String?, String?> {
@@ -94,4 +96,13 @@ object Utils {
 
         return url.matches("[a-zA-Z0-9_-]*".toRegex())
     }
+
+    fun convertPxToDp(context: Context, px: Int): Int {
+        return (px / context.resources.displayMetrics.density).roundToInt()
+    }
+
+    fun convertDpToPx(context: Context, dp: Float): Int {
+        return (dp * context.resources.displayMetrics.density).roundToInt()
+    }
+
 }
