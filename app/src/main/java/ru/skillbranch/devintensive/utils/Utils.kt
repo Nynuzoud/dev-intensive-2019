@@ -60,7 +60,7 @@ object Utils {
 
         var url = s.toString().toLowerCase(Locale("ru"))
         val validPrefixes = arrayOf("https://www.", "https://", "www.")
-        val validDomen = "github.com"
+        val validDomain = "github.com"
         val exceptions = arrayOf(
             "enterprise",
             "features",
@@ -86,7 +86,7 @@ object Utils {
         }
 
         url = url
-            .replaceFirst(validDomen, "")
+            .replaceFirst(validDomain, "")
             .replaceFirst("/", "").let {
                 if (it.isNotEmpty() && it[it.length - 1] == '/') {
                     return@let it.substring(0..it.length - 2)
